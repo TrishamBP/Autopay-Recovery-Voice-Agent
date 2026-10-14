@@ -1,0 +1,55 @@
+[project]
+name = "autopay-recovery-backend"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "aiosqlite>=0.20",
+    "alembic>=1.14",
+    "fastapi>=0.115",
+    "httpx>=0.27",
+    "openpyxl>=3.1",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "sqlglot>=25",
+    "twilio>=9",
+    "tzdata>=2026.5",
+    "uvicorn>=0.30",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.8",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "ASYNC", "S", "SIM", "DTZ", "RUF", "BLE", "C4", "PIE", "RET"]
+ignore = [
+    "RUF001", "RUF002", "RUF003",  # intentional non-ASCII (₹) in docs/messages
+    "S608",                        # SQL building is AST-based/validated; see database_query
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106", "S311", "DTZ001"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src", "scripts"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-m 'not live' --strict-markers"
+markers = ["live: calls real external providers; opt-in only (needs credentials)"]
+filterwarnings = ["error::pytest.PytestUnraisableExceptionWarning"]

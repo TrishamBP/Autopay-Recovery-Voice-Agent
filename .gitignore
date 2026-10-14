@@ -1,0 +1,42 @@
+# Secrets (only .env.example is committed; set real values in Render's Environment tab)
+.env
+.env.*
+!.env.example
+
+# Python / uv
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Databases: only the clean seed (synthetic customers, no calls/transcripts) is committed.
+# Rebuild it with the commands in README.md ("Deploying to Render").
+*.db
+*.sqlite3
+*.db-wal
+*.db-shm
+*.db-journal
+!data/seed.db
+
+# Local live-test records (Call SIDs, approval results) and data exports
+data/live-test-*.json
+*.xlsx
+~$*
+*.log
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Claude Code personal settings
+.claude/settings.local.json
+CLAUDE.local.md
